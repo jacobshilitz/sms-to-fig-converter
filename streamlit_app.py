@@ -253,15 +253,18 @@ def main():
         st.markdown("""
         ### Step 1: Install Backup App from Play Store
         
-        **Recommended App:**
-        - **[SMS Backup & Restore](https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore)** (by SyncTech/Carbonite) - ⭐ **Most Popular & Recommended**
-          - 10M+ downloads, tested and verified
+        **Recommended App (Tested):**
+        - **[SMS Backup & Restore](https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore)** (by SyncTech/Carbonite) - ⭐ **Tested & Verified**
+          - 10M+ downloads
           - Free with optional cloud backup
           - Exports in XML format (required for this converter)
+          - ✅ **This is the app we tested with - guaranteed to work**
         
-        **Alternative Apps:**
-        - **[SMS Backup+](https://play.google.com/store/apps/details?id=com.zegoggles.smssync)** - Open source option
-        - **[Super Backup & Restore](https://play.google.com/store/apps/details?id=com.idea.backup.smscontacts)** - Alternative option
+        **Alternative Apps (Not Tested):**
+        - **[SMS Backup+](https://play.google.com/store/apps/details?id=com.zegoggles.smssync)** - Open source option (may work, but not tested)
+        - **[Super Backup & Restore](https://play.google.com/store/apps/details?id=com.idea.backup.smscontacts)** - Alternative option (may work, but not tested)
+        
+        **Note:** Other apps that export in the same XML format should work, but we have only tested with SMS Backup & Restore.
         
         ### Step 2: Export Your Messages
         

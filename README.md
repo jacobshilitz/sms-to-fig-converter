@@ -6,16 +6,18 @@ Converts Android SMS/MMS backup XML files to Fig messenger zip backup format.
 
 ### Step 1: Install a Backup App from Play Store
 
-**Recommended App:**
-- **[SMS Backup & Restore](https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore)** (by SyncTech/Carbonite) - ⭐ **Most Popular & Recommended**
+**Recommended App (Tested):**
+- **[SMS Backup & Restore](https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore)** (by SyncTech/Carbonite) - ⭐ **Tested & Verified**
   - 10M+ downloads
   - Backs up SMS, MMS, and call logs in XML format
   - Free with optional cloud backup to Google Drive, Dropbox, OneDrive
-  - Tested and verified to work with this converter
+  - ✅ **This is the app we tested with - guaranteed to work**
 
-**Alternative Apps:**
-- **SMS Backup+** - [Play Store Link](https://play.google.com/store/apps/details?id=com.zegoggles.smssync) - Open source option
-- **Super Backup & Restore** - [Play Store Link](https://play.google.com/store/apps/details?id=com.idea.backup.smscontacts) - Alternative option
+**Alternative Apps (Not Tested):**
+- **SMS Backup+** - [Play Store Link](https://play.google.com/store/apps/details?id=com.zegoggles.smssync) - Open source option (may work, but not tested)
+- **Super Backup & Restore** - [Play Store Link](https://play.google.com/store/apps/details?id=com.idea.backup.smscontacts) - Alternative option (may work, but not tested)
+
+**Note:** Other apps that export in the same XML format should work, but we have only tested with SMS Backup & Restore. If you use a different app and encounter issues, please report them.
 
 ### Step 2: Export Your Messages
 
