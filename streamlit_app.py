@@ -1,5 +1,5 @@
 """
-Streamlit Web App for SMS and Call Backup to Fig Messenger Conversion
+Streamlit Web App for SMS and Call Backup to Fig Phone Conversion
 Simple web interface for non-technical users to convert Android SMS and call backups.
 """
 
@@ -25,9 +25,9 @@ from convert_calls_to_fig import convert_call_to_fig
 import xml.etree.ElementTree as ET
 import json
 
-# Page configuration
+    # Page configuration
 st.set_page_config(
-    page_title="SMS & Call Backup Converter",
+    page_title="SMS & Call Backup to Fig Phone Converter",
     page_icon="📱",
     layout="wide"
 )
@@ -237,14 +237,23 @@ def convert_xml_to_fig_streamlit(uploaded_file, limit=None, progress_bar=None, s
             os.unlink(tmp_path)
 
 def main():
+    # Beta Notice Banner
+    st.markdown("""
+    <div style="background-color: #fff3cd; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ffc107; margin-bottom: 1.5rem; text-align: center;">
+        <strong>⚠️ BETA VERSION</strong><br>
+        <span style="font-size: 0.95em;">This application is currently in beta. Please report any issues you encounter.</span>
+    </div>
+    """, unsafe_allow_html=True)
+    
     # Header
-    st.markdown('<div class="main-header">📱 SMS & Call Backup to Fig Messenger Converter</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header">📱 SMS & Call Backup to Fig Phone Converter</div>', unsafe_allow_html=True)
     
     # Info section
     st.markdown("""
     <div class="info-box">
         <strong>What does this tool do?</strong><br>
-        Convert your Android SMS/MMS and call backup XML files into a format compatible with Fig Messenger.
+        Migrate your SMS/MMS messages and call logs from your smartphone to Fig Phone. 
+        Convert your Android backup XML files into a format compatible with Fig Phone for easy migration.
     </div>
     """, unsafe_allow_html=True)
     
@@ -394,7 +403,7 @@ def main():
                         key="sms_download"
                     )
                     
-                    st.info("💡 **Next Steps:** Import the downloaded ZIP file into Fig Messenger to restore your messages.")
+                    st.info("💡 **Next Steps:** Import the downloaded ZIP file into Fig Phone to restore your messages.")
                 
                 except Exception as e:
                     st.error(f"❌ Error during conversion: {str(e)}")
@@ -473,7 +482,7 @@ def main():
                         key="calls_download"
                     )
                     
-                    st.info("💡 **Next Steps:** Import the downloaded JSON file into Fig Messenger to restore your call history.")
+                    st.info("💡 **Next Steps:** Import the downloaded JSON file into Fig Phone to restore your call history.")
                 
                 except Exception as e:
                     st.error(f"❌ Error during conversion: {str(e)}")
@@ -485,7 +494,8 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; color: #666; font-size: 0.9rem;">
-        Made with ❤️ for easy SMS and Call migration to Fig Messenger
+        Made for migrating your SMS, MMS, and call history from your smartphone to Fig Phone<br>
+        <span style="font-size: 0.85em; color: #999;">⚠️ Beta Version - Report issues if you encounter any problems</span>
     </div>
     """, unsafe_allow_html=True)
 
