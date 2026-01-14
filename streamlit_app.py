@@ -174,7 +174,9 @@ def main():
     <div class="info-box">
         <strong>What does this tool do?</strong><br>
         Convert your Android SMS/MMS backup XML file into a format compatible with Fig Messenger.
-        Your data stays private - all processing happens in your browser.
+        <br><br>
+        <strong>Privacy Note:</strong> When using this hosted version, files are processed on the server. 
+        For maximum privacy, you can run this app locally on your own computer.
     </div>
     """, unsafe_allow_html=True)
     
@@ -266,10 +268,12 @@ def main():
         
         ### Privacy Note
         
-        ⚠️ **Important:** This tool processes your data locally. For maximum privacy, you can:
-        - Run this app on your own computer
-        - Use the command-line version if you prefer
-        - Check the source code to verify no data is sent to external servers
+        ⚠️ **Important:** When using this hosted web app, your files are uploaded to and processed on the server. 
+        For maximum privacy, you can:
+        - **Run this app locally** on your own computer: `streamlit run streamlit_app.py`
+        - **Use the command-line version**: `python convert_sms_to_fig.py your_file.xml`
+        - **Self-host** the app on your own server (see HOSTING_GUIDE.md)
+        - Check the source code to verify what data is processed
         """)
     
     # Footer
