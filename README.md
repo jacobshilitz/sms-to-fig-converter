@@ -157,7 +157,12 @@ The command-line script (`convert_sms_to_fig.py`) processes files **entirely on 
 - **Local execution**: If you run `streamlit run streamlit_app.py` on your computer, processing happens locally (private).
 - **Hosted version**: If deployed to Streamlit Cloud, Railway, etc., files are uploaded to and processed on the server.
   - ⚠️ **Important**: Server administrators could potentially access your data.
-  - Files are stored temporarily and should be cleaned up automatically.
+  - **File storage**: Uploaded files are stored in RAM (memory), not on disk, and are automatically deleted when:
+    - The user uploads another file (replacing the original)
+    - The user clears the file uploader
+    - The user closes the browser tab
+    - The app re-runs (which happens on each interaction)
+  - See [Streamlit's documentation](https://docs.streamlit.io/knowledge-base/using-streamlit/where-file-uploader-store-when-deleted) for more details on file handling.
   - For sensitive SMS data, **we recommend using the command-line version or running locally**.
 
 ### Best Practices

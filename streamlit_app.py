@@ -301,7 +301,17 @@ def main():
         ### Privacy Note
         
         ⚠️ **Important:** When using this hosted web app, your files are uploaded to and processed on the server. 
-        For maximum privacy, you can:
+        
+        **File Storage & Deletion:**
+        - Uploaded files are stored in RAM (memory), not on disk
+        - Files are automatically deleted when:
+          - You upload another file (replacing the original)
+          - You clear the file uploader
+          - You close the browser tab
+          - The app re-runs (happens on each interaction)
+        - See [Streamlit's documentation](https://docs.streamlit.io/knowledge-base/using-streamlit/where-file-uploader-store-when-deleted) for more details
+        
+        **For maximum privacy, you can:**
         - **Run this app locally** on your own computer: `streamlit run streamlit_app.py`
         - **Use the command-line version**: `python convert_sms_to_fig.py your_file.xml`
         - **Self-host** the app on your own server (see HOSTING_GUIDE.md)
