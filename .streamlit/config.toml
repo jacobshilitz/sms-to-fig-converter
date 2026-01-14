@@ -1,0 +1,15 @@
+[server]
+# Maximum upload size in MB (adjust as needed)
+maxUploadSize = 200
+maxMessageSize = 200
+
+# Enable CORS if needed
+enableCORS = false
+enableXsrfProtection = true
+
+[theme]
+primaryColor = "#1f77b4"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f0f2f6"
+textColor = "#262730"
+font = "sans serif"
