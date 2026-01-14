@@ -174,9 +174,36 @@ def main():
     <div class="info-box">
         <strong>What does this tool do?</strong><br>
         Convert your Android SMS/MMS backup XML file into a format compatible with Fig Messenger.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Privacy warning section - more prominent
+    st.markdown("""
+    <div style="background-color: #fff3cd; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ffc107; margin: 1rem 0;">
+        <strong>🔒 Privacy & Security Notice</strong><br><br>
+        <strong>When using this hosted web app:</strong>
+        <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+            <li>Your files are uploaded to and processed on the server</li>
+            <li>Files are stored in RAM (memory), not on disk</li>
+            <li>Files are automatically deleted when you close the tab or upload a new file</li>
+            <li>Server administrators could potentially access your data during processing</li>
+        </ul>
+        <br>
+        <strong>For maximum privacy:</strong> Use the command-line version or run this app locally on your computer.
         <br><br>
-        <strong>Privacy Note:</strong> When using this hosted version, files are processed on the server. 
-        For maximum privacy, you can run this app locally on your own computer.
+        <details>
+            <summary style="cursor: pointer; color: #1f77b4;"><strong>📖 Learn more about file handling</strong></summary>
+            <div style="margin-top: 0.5rem; padding-left: 1rem;">
+                Files uploaded via Streamlit are stored in RAM and automatically deleted when:
+                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <li>You upload another file (replacing the original)</li>
+                    <li>You clear the file uploader</li>
+                    <li>You close the browser tab</li>
+                    <li>The app re-runs (happens on each interaction)</li>
+                </ul>
+                See <a href="https://docs.streamlit.io/knowledge-base/using-streamlit/where-file-uploader-store-when-deleted" target="_blank">Streamlit's documentation</a> for more details.
+            </div>
+        </details>
     </div>
     """, unsafe_allow_html=True)
     
@@ -298,24 +325,30 @@ def main():
         ```
         See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for full documentation.
         
-        ### Privacy Note
+        ### 🔒 Privacy & Security Options
         
-        ⚠️ **Important:** When using this hosted web app, your files are uploaded to and processed on the server. 
+        **For maximum privacy, use one of these options:**
         
-        **File Storage & Deletion:**
-        - Uploaded files are stored in RAM (memory), not on disk
-        - Files are automatically deleted when:
-          - You upload another file (replacing the original)
-          - You clear the file uploader
-          - You close the browser tab
-          - The app re-runs (happens on each interaction)
-        - See [Streamlit's documentation](https://docs.streamlit.io/knowledge-base/using-streamlit/where-file-uploader-store-when-deleted) for more details
+        1. **Command-line version** (Most Private):
+           ```bash
+           python convert_sms_to_fig.py your_file.xml
+           ```
+           - All processing happens on your computer
+           - No data is sent anywhere
+           - See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for full documentation
         
-        **For maximum privacy, you can:**
-        - **Run this app locally** on your own computer: `streamlit run streamlit_app.py`
-        - **Use the command-line version**: `python convert_sms_to_fig.py your_file.xml`
-        - **Self-host** the app on your own server (see HOSTING_GUIDE.md)
-        - Check the source code to verify what data is processed
+        2. **Run locally** (Private):
+           ```bash
+           streamlit run streamlit_app.py
+           ```
+           - Processing happens on your computer
+           - Web interface without uploading to external servers
+        
+        3. **Self-host** (You control the server):
+           - Deploy on your own server
+           - See HOSTING_GUIDE.md for instructions
+        
+        **Note:** The privacy notice at the top of this page explains how files are handled when using the hosted version.
         """)
     
     # Footer
