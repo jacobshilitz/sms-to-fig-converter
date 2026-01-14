@@ -251,20 +251,49 @@ def main():
     # Instructions section
     with st.expander("📖 How to Get Your Android SMS Backup"):
         st.markdown("""
-        ### Step 1: Export SMS Backup from Android
+        ### Step 1: Install Backup App from Play Store
         
-        You can use apps like:
-        - **SMS Backup & Restore** (by Carbonite)
-        - **SMS Backup+** 
-        - **Super Backup & Restore**
+        **Recommended App:**
+        - **[SMS Backup & Restore](https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore)** (by SyncTech/Carbonite) - ⭐ **Most Popular & Recommended**
+          - 10M+ downloads, tested and verified
+          - Free with optional cloud backup
+          - Exports in XML format (required for this converter)
         
-        ### Step 2: Export as XML
+        **Alternative Apps:**
+        - **[SMS Backup+](https://play.google.com/store/apps/details?id=com.zegoggles.smssync)** - Open source option
+        - **[Super Backup & Restore](https://play.google.com/store/apps/details?id=com.idea.backup.smscontacts)** - Alternative option
         
-        When exporting, make sure to choose **XML format** (not JSON or other formats).
+        ### Step 2: Export Your Messages
         
-        ### Step 3: Upload Here
+        1. Open the backup app you installed
+        2. Grant necessary permissions (SMS, Contacts, Storage)
+        3. Tap **Backup** or **Export** option
+        4. **⚠️ IMPORTANT**: Select **XML format** (not JSON or other formats)
+        5. Choose what to backup:
+           - ✅ SMS messages
+           - ✅ MMS messages (if available)
+           - ✅ Attachments (for MMS)
+        6. Save the backup file
+        
+        ### Step 3: Transfer to Computer
+        
+        Transfer the XML file to your computer using:
+        - USB cable
+        - Email to yourself
+        - Cloud storage (Google Drive, Dropbox, etc.)
+        - File sharing apps
+        
+        ### Step 4: Upload Here
         
         Upload the XML file you exported, and this tool will convert it to Fig Messenger format.
+        
+        ### 💻 Prefer Command-Line? (More Private)
+        
+        For maximum privacy, use the command-line version instead:
+        ```bash
+        python convert_sms_to_fig.py your_backup.xml
+        ```
+        See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for full documentation.
         
         ### Privacy Note
         
