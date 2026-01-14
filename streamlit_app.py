@@ -177,33 +177,13 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
-    # Privacy warning section - more prominent
+    # Privacy warning section - concise
     st.markdown("""
-    <div style="background-color: #fff3cd; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ffc107; margin: 1rem 0;">
-        <strong>🔒 Privacy & Security Notice</strong><br><br>
-        <strong>When using this hosted web app:</strong>
-        <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
-            <li>Your files are uploaded to and processed on the server</li>
-            <li>Files are stored in RAM (memory), not on disk</li>
-            <li>Files are automatically deleted when you close the tab or upload a new file</li>
-            <li>Server administrators could potentially access your data during processing</li>
-        </ul>
-        <br>
-        <strong>For maximum privacy:</strong> Use the command-line version or run this app locally on your computer.
-        <br><br>
-        <details>
-            <summary style="cursor: pointer; color: #1f77b4;"><strong>📖 Learn more about file handling</strong></summary>
-            <div style="margin-top: 0.5rem; padding-left: 1rem;">
-                Files uploaded via Streamlit are stored in RAM and automatically deleted when:
-                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
-                    <li>You upload another file (replacing the original)</li>
-                    <li>You clear the file uploader</li>
-                    <li>You close the browser tab</li>
-                    <li>The app re-runs (happens on each interaction)</li>
-                </ul>
-                See <a href="https://docs.streamlit.io/knowledge-base/using-streamlit/where-file-uploader-store-when-deleted" target="_blank">Streamlit's documentation</a> for more details.
-            </div>
-        </details>
+    <div style="background-color: #fff3cd; padding: 0.75rem; border-radius: 0.5rem; border-left: 4px solid #ffc107; margin: 1rem 0;">
+        <strong>🔒 Privacy Notice:</strong> Files are uploaded to the server and processed there. 
+        Files are stored in memory (RAM) and automatically deleted when you close the tab or upload a new file. 
+        <strong>For maximum privacy:</strong> Use the <a href="https://github.com/jacobshilitz/sms-to-fig-converter#-command-line-usage-backend" target="_blank">command-line version</a> or run locally.
+        <a href="https://docs.streamlit.io/knowledge-base/using-streamlit/where-file-uploader-store-when-deleted" target="_blank" style="font-size: 0.85em;">(Learn more)</a>
     </div>
     """, unsafe_allow_html=True)
     
@@ -325,30 +305,12 @@ def main():
         ```
         See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for full documentation.
         
-        ### 🔒 Privacy & Security Options
+        ### 🔒 Privacy Options
         
-        **For maximum privacy, use one of these options:**
-        
-        1. **Command-line version** (Most Private):
-           ```bash
-           python convert_sms_to_fig.py your_file.xml
-           ```
-           - All processing happens on your computer
-           - No data is sent anywhere
-           - See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for full documentation
-        
-        2. **Run locally** (Private):
-           ```bash
-           streamlit run streamlit_app.py
-           ```
-           - Processing happens on your computer
-           - Web interface without uploading to external servers
-        
-        3. **Self-host** (You control the server):
-           - Deploy on your own server
-           - See HOSTING_GUIDE.md for instructions
-        
-        **Note:** The privacy notice at the top of this page explains how files are handled when using the hosted version.
+        **For maximum privacy:**
+        - **Command-line**: `python convert_sms_to_fig.py your_file.xml` (most private - runs on your computer)
+        - **Run locally**: `streamlit run streamlit_app.py` (web interface on your computer)
+        - See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for details
         """)
     
     # Footer
