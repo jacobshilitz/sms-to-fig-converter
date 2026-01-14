@@ -258,85 +258,8 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
-    # ============================================
-    # SECTION 1: SMS/MMS CONVERTER
-    # ============================================
-    st.header("📨 SMS/MMS Converter")
-    
-    # File upload
-    st.subheader("📤 Upload Your SMS Backup File")
-    sms_uploaded_file = st.file_uploader(
-        "Choose your Android SMS backup XML file",
-        type=['xml'],
-        help="Upload the XML file exported from your Android SMS backup app",
-        key="sms_uploader"
-    )
-    
-    # Options
-    col1, col2 = st.columns(2)
-    with col1:
-        sms_test_mode = st.checkbox("Test Mode (First 50 messages only)", value=False, 
-                                help="Process only the first 50 messages to test the conversion",
-                                key="sms_test_mode")
-    with col2:
-        sms_custom_limit = st.number_input("Custom Message Limit (optional)", 
-                                       min_value=1, value=None, 
-                                       help="Limit the number of messages to process",
-                                       key="sms_limit")
-    
-    # Convert button
-    if sms_uploaded_file is not None:
-        if st.button("🔄 Convert SMS/MMS to Fig Format", type="primary", use_container_width=True, key="sms_convert"):
-            # Determine limit
-            limit = None
-            if sms_test_mode:
-                limit = 50
-            elif sms_custom_limit:
-                limit = int(sms_custom_limit)
-            
-            # Show progress
-            progress_bar = st.progress(0)
-            status_text = st.empty()
-            
-            try:
-                # Convert
-                zip_data, sms_count, mms_count = convert_xml_to_fig_streamlit(
-                    sms_uploaded_file, limit, progress_bar, status_text
-                )
-                
-                # Update progress to 100%
-                progress_bar.progress(1.0)
-                status_text.empty()
-                
-                # Success message
-                st.markdown(f"""
-                <div class="success-box">
-                    <strong>✅ Conversion Complete!</strong><br>
-                    Processed {sms_count} SMS messages and {mms_count} MMS messages<br>
-                    Total: {sms_count + mms_count} messages
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Download button
-                st.download_button(
-                    label="📥 Download Fig Backup ZIP",
-                    data=zip_data,
-                    file_name="fig_backup.zip",
-                    mime="application/zip",
-                    use_container_width=True,
-                    key="sms_download"
-                )
-                
-                st.info("💡 **Next Steps:** Import the downloaded ZIP file into Fig Messenger to restore your messages.")
-            
-            except Exception as e:
-                st.error(f"❌ Error during conversion: {str(e)}")
-                st.exception(e)
-    else:
-        st.info("👆 Please upload an XML file to get started")
-    
-    # Instructions section for SMS
-    with st.expander("📖 How to Get Your Android SMS Backup"):
+    # Shared instructions section
+    with st.expander("📖 How to Get Your Android Backup"):
         st.markdown("""
         ### Step 1: Install Backup App from Play Store
         
@@ -344,7 +267,7 @@ def main():
         - **[SMS Backup & Restore](https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore)** (by SyncTech/Carbonite) - ⭐ **Tested & Verified**
           - 10M+ downloads
           - Free with optional cloud backup
-          - Exports in XML format (required for this converter)
+          - Exports SMS, MMS, and call logs in XML format (required for this converter)
           - ✅ **This is the app we tested with - guaranteed to work**
         
         **Alternative Apps (Not Tested):**
@@ -353,21 +276,22 @@ def main():
         
         **Note:** Other apps that export in the same XML format should work, but we have only tested with SMS Backup & Restore.
         
-        ### Step 2: Export Your Messages
+        ### Step 2: Export Your Data
         
         1. Open the backup app you installed
-        2. Grant necessary permissions (SMS, Contacts, Storage)
+        2. Grant necessary permissions (SMS, Phone, Contacts, Storage)
         3. Tap **Backup** or **Export** option
         4. **⚠️ IMPORTANT**: Select **XML format** (not JSON or other formats)
         5. Choose what to backup:
-           - ✅ SMS messages
-           - ✅ MMS messages (if available)
+           - ✅ SMS messages (for SMS/MMS converter)
+           - ✅ MMS messages (for SMS/MMS converter)
            - ✅ Attachments (for MMS)
-        6. Save the backup file
+           - ✅ Call logs (for Calls converter)
+        6. Save the backup file(s)
         
         ### Step 3: Transfer to Computer
         
-        Transfer the XML file to your computer using:
+        Transfer the XML file(s) to your computer using:
         - USB cable
         - Email to yourself
         - Cloud storage (Google Drive, Dropbox, etc.)
@@ -375,160 +299,189 @@ def main():
         
         ### Step 4: Upload Here
         
-        Upload the XML file you exported, and this tool will convert it to Fig Messenger format.
+        Upload the XML file(s) you exported:
+        - Use the **SMS/MMS Converter** tab for SMS/MMS backup files
+        - Use the **Calls Converter** tab for call backup files
         
         ### 💻 Prefer Command-Line? (More Private)
         
         For maximum privacy, use the command-line version instead:
         ```bash
-        python convert_sms_to_fig.py your_backup.xml
+        # For SMS/MMS
+        python convert_sms_to_fig.py your_sms_backup.xml
+        
+        # For Calls
+        python convert_calls_to_fig.py your_calls_backup.xml
         ```
         See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for full documentation.
         
         ### 🔒 Privacy Options
         
         **For maximum privacy:**
-        - **Command-line**: `python convert_sms_to_fig.py your_file.xml` (most private - runs on your computer)
+        - **Command-line**: Run the scripts locally (most private - runs on your computer)
         - **Run locally**: `streamlit run streamlit_app.py` (web interface on your computer)
         - See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for details
         """)
     
-    # Divider between sections
-    st.divider()
+    # Create tabs for SMS/MMS and Calls converters
+    tab1, tab2 = st.tabs(["📨 SMS/MMS Converter", "📞 Calls Converter"])
     
     # ============================================
-    # SECTION 2: CALLS CONVERTER
+    # TAB 1: SMS/MMS CONVERTER
     # ============================================
-    st.header("📞 Calls Converter")
-    
-    # File upload
-    st.subheader("📤 Upload Your Call Backup File")
-    calls_uploaded_file = st.file_uploader(
-        "Choose your Android call backup XML file",
-        type=['xml'],
-        help="Upload the XML file exported from your Android call backup app",
-        key="calls_uploader"
-    )
-    
-    # Options
-    col1, col2 = st.columns(2)
-    with col1:
-        calls_test_mode = st.checkbox("Test Mode (First 50 calls only)", value=False, 
-                                help="Process only the first 50 calls to test the conversion",
-                                key="calls_test_mode")
-    with col2:
-        calls_custom_limit = st.number_input("Custom Call Limit (optional)", 
-                                       min_value=1, value=None, 
-                                       help="Limit the number of calls to process",
-                                       key="calls_limit")
-    
-    # Convert button
-    if calls_uploaded_file is not None:
-        if st.button("🔄 Convert Calls to Fig Format", type="primary", use_container_width=True, key="calls_convert"):
-            # Determine limit
-            limit = None
-            if calls_test_mode:
-                limit = 50
-            elif calls_custom_limit:
-                limit = int(calls_custom_limit)
-            
-            # Show progress
-            progress_bar = st.progress(0)
-            status_text = st.empty()
-            
-            try:
-                # Convert
-                json_data, calls_count = convert_calls_xml_to_fig_streamlit(
-                    calls_uploaded_file, limit, progress_bar, status_text
-                )
+    with tab1:
+        # File upload
+        st.subheader("📤 Upload Your SMS Backup File")
+        sms_uploaded_file = st.file_uploader(
+            "Choose your Android SMS backup XML file",
+            type=['xml'],
+            help="Upload the XML file exported from your Android SMS backup app",
+            key="sms_uploader"
+        )
+        
+        # Options
+        col1, col2 = st.columns(2)
+        with col1:
+            sms_test_mode = st.checkbox("Test Mode (First 50 messages only)", value=False, 
+                                    help="Process only the first 50 messages to test the conversion",
+                                    key="sms_test_mode")
+        with col2:
+            sms_custom_limit = st.number_input("Custom Message Limit (optional)", 
+                                           min_value=1, value=None, 
+                                           help="Limit the number of messages to process",
+                                           key="sms_limit")
+        
+        # Convert button
+        if sms_uploaded_file is not None:
+            if st.button("🔄 Convert SMS/MMS to Fig Format", type="primary", use_container_width=True, key="sms_convert"):
+                # Determine limit
+                limit = None
+                if sms_test_mode:
+                    limit = 50
+                elif sms_custom_limit:
+                    limit = int(sms_custom_limit)
                 
-                # Update progress to 100%
-                progress_bar.progress(1.0)
-                status_text.empty()
+                # Show progress
+                progress_bar = st.progress(0)
+                status_text = st.empty()
                 
-                # Success message
-                st.markdown(f"""
-                <div class="success-box">
-                    <strong>✅ Conversion Complete!</strong><br>
-                    Processed {calls_count} calls
-                </div>
-                """, unsafe_allow_html=True)
+                try:
+                    # Convert
+                    zip_data, sms_count, mms_count = convert_xml_to_fig_streamlit(
+                        sms_uploaded_file, limit, progress_bar, status_text
+                    )
+                    
+                    # Update progress to 100%
+                    progress_bar.progress(1.0)
+                    status_text.empty()
+                    
+                    # Success message
+                    st.markdown(f"""
+                    <div class="success-box">
+                        <strong>✅ Conversion Complete!</strong><br>
+                        Processed {sms_count} SMS messages and {mms_count} MMS messages<br>
+                        Total: {sms_count + mms_count} messages
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    # Download button
+                    st.download_button(
+                        label="📥 Download Fig Backup ZIP",
+                        data=zip_data,
+                        file_name="fig_backup.zip",
+                        mime="application/zip",
+                        use_container_width=True,
+                        key="sms_download"
+                    )
+                    
+                    st.info("💡 **Next Steps:** Import the downloaded ZIP file into Fig Messenger to restore your messages.")
                 
-                # Generate filename
-                timestamp = datetime.now().strftime('%Y-%m-%d_%H%M%S')
-                filename = f"calls-{timestamp}.json"
-                
-                # Download button
-                st.download_button(
-                    label="📥 Download Fig Calls JSON",
-                    data=json_data,
-                    file_name=filename,
-                    mime="application/json",
-                    use_container_width=True,
-                    key="calls_download"
-                )
-                
-                st.info("💡 **Next Steps:** Import the downloaded JSON file into Fig Messenger to restore your call history.")
-            
-            except Exception as e:
-                st.error(f"❌ Error during conversion: {str(e)}")
-                st.exception(e)
-    else:
-        st.info("👆 Please upload an XML file to get started")
+                except Exception as e:
+                    st.error(f"❌ Error during conversion: {str(e)}")
+                    st.exception(e)
+        else:
+            st.info("👆 Please upload an XML file to get started")
     
-    # Instructions section for Calls
-    with st.expander("📖 How to Get Your Android Call Backup"):
-        st.markdown("""
-        ### Step 1: Install Backup App from Play Store
+    # ============================================
+    # TAB 2: CALLS CONVERTER
+    # ============================================
+    with tab2:
+        # File upload
+        st.subheader("📤 Upload Your Call Backup File")
+        calls_uploaded_file = st.file_uploader(
+            "Choose your Android call backup XML file",
+            type=['xml'],
+            help="Upload the XML file exported from your Android call backup app",
+            key="calls_uploader"
+        )
         
-        **Recommended App (Tested):**
-        - **[SMS Backup & Restore](https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore)** (by SyncTech/Carbonite) - ⭐ **Tested & Verified**
-          - 10M+ downloads
-          - Free with optional cloud backup
-          - Exports call logs in XML format (required for this converter)
-          - ✅ **This is the app we tested with - guaranteed to work**
+        # Options
+        col1, col2 = st.columns(2)
+        with col1:
+            calls_test_mode = st.checkbox("Test Mode (First 50 calls only)", value=False, 
+                                    help="Process only the first 50 calls to test the conversion",
+                                    key="calls_test_mode")
+        with col2:
+            calls_custom_limit = st.number_input("Custom Call Limit (optional)", 
+                                           min_value=1, value=None, 
+                                           help="Limit the number of calls to process",
+                                           key="calls_limit")
         
-        **Note:** Other apps that export in the same XML format should work, but we have only tested with SMS Backup & Restore.
-        
-        ### Step 2: Export Your Call History
-        
-        1. Open the backup app you installed
-        2. Grant necessary permissions (Phone, Contacts, Storage)
-        3. Tap **Backup** or **Export** option
-        4. **⚠️ IMPORTANT**: Select **XML format** (not JSON or other formats)
-        5. Choose what to backup:
-           - ✅ Call logs
-        6. Save the backup file
-        
-        ### Step 3: Transfer to Computer
-        
-        Transfer the XML file to your computer using:
-        - USB cable
-        - Email to yourself
-        - Cloud storage (Google Drive, Dropbox, etc.)
-        - File sharing apps
-        
-        ### Step 4: Upload Here
-        
-        Upload the XML file you exported, and this tool will convert it to Fig Messenger format.
-        
-        ### 💻 Prefer Command-Line? (More Private)
-        
-        For maximum privacy, use the command-line version instead:
-        ```bash
-        python convert_calls_to_fig.py your_backup.xml
-        ```
-        See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for full documentation.
-        
-        ### 🔒 Privacy Options
-        
-        **For maximum privacy:**
-        - **Command-line**: `python convert_calls_to_fig.py your_file.xml` (most private - runs on your computer)
-        - **Run locally**: `streamlit run streamlit_app.py` (web interface on your computer)
-        - See [README.md](https://github.com/jacobshilitz/sms-to-fig-converter) for details
-        """)
+        # Convert button
+        if calls_uploaded_file is not None:
+            if st.button("🔄 Convert Calls to Fig Format", type="primary", use_container_width=True, key="calls_convert"):
+                # Determine limit
+                limit = None
+                if calls_test_mode:
+                    limit = 50
+                elif calls_custom_limit:
+                    limit = int(calls_custom_limit)
+                
+                # Show progress
+                progress_bar = st.progress(0)
+                status_text = st.empty()
+                
+                try:
+                    # Convert
+                    json_data, calls_count = convert_calls_xml_to_fig_streamlit(
+                        calls_uploaded_file, limit, progress_bar, status_text
+                    )
+                    
+                    # Update progress to 100%
+                    progress_bar.progress(1.0)
+                    status_text.empty()
+                    
+                    # Success message
+                    st.markdown(f"""
+                    <div class="success-box">
+                        <strong>✅ Conversion Complete!</strong><br>
+                        Processed {calls_count} calls
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    # Generate filename
+                    timestamp = datetime.now().strftime('%Y-%m-%d_%H%M%S')
+                    filename = f"calls-{timestamp}.json"
+                    
+                    # Download button
+                    st.download_button(
+                        label="📥 Download Fig Calls JSON",
+                        data=json_data,
+                        file_name=filename,
+                        mime="application/json",
+                        use_container_width=True,
+                        key="calls_download"
+                    )
+                    
+                    st.info("💡 **Next Steps:** Import the downloaded JSON file into Fig Messenger to restore your call history.")
+                
+                except Exception as e:
+                    st.error(f"❌ Error during conversion: {str(e)}")
+                    st.exception(e)
+        else:
+            st.info("👆 Please upload an XML file to get started")
     
-    # Footer
+    # Footer (outside tabs)
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; color: #666; font-size: 0.9rem;">
