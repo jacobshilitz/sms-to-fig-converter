@@ -14,13 +14,13 @@ build/
 fig_backup/
 fig_backup_test.zip
 fig_backup.zip
-example/*.xml
+example/
 example/fig-zip-extracted/
 messages_list.txt
 list.sms.txt
 *.txt
 !requirements.txt
-
+*.json
 # IDE
 .vscode/
 .idea/
